@@ -1,0 +1,16 @@
+{
+    "menu_title": "Bandes cinématiques",
+    "bar_thickness": "Épaisseur des bandes",
+    "thickness_thin": "Fine",
+    "thickness_medium": "Moyenne",
+    "thickness_thick": "Épaisse",
+    "thickness_extra_thick": "Très épaisse",
+
+    "command_help": "Active ou désactive les bandes cinématiques avec une épaisseur personnalisable.",
+    "notify_title": "Mode cinématique",
+    "cooldown_notify": "Veuillez patienter encore %d secondes avant de réutiliser cette commande.",
+
+    "log_username": "Bandes cinématiques",
+    "log_used_title": "Commande cinématique utilisée",
+    "log_used_message": "Joueur : **%s** (ID : %d) a utilisé /%s pour activer/désactiver le mode cinématique."
+}

@@ -1,60 +1,63 @@
 local config = lib.require('config')
+lib.locale()
 
-local CAM_HEIGHT = 0.15 
 local camActive = false
 local camMoving = false
 local camHeight = 0.0
+local drawing = false
 
-local function handleCinematicAnim()
-    camMoving = true
-    DisplayRadar(not camActive)
+local thicknessOptions = {
+    { value = '0.05', label = locale('thickness_thin') },
+    { value = '0.10', label = locale('thickness_medium') },
+    { value = '0.20', label = locale('thickness_thick') },
+    { value = '0.30', label = locale('thickness_extra_thick') },
+}
 
-    if GetResourceState("jg-hud") == "started" then
-        exports["jg-hud"]:toggleHud(not camActive)
-        exports["jg-hud"]:toggleVehicleControl(not camActive)
-    elseif GetResourceState("0r-hud-v3") == "started" then
-        exports['0r-hud-v3']:ToggleVisible(not camActive)
-    elseif GetResourceState("otherhud") == "started" then
+local function setHudVisible(visible)
+    DisplayRadar(visible)
+
+    if GetResourceState('jg-hud') == 'started' then
+        exports['jg-hud']:toggleHud(visible)
+        exports['jg-hud']:toggleVehicleControl(visible)
+    elseif GetResourceState('0r-hud-v3') == 'started' then
+        exports['0r-hud-v3']:ToggleVisible(visible)
+    elseif GetResourceState('otherhud') == 'started' then
         -- custom export
-    else
-        print("No HUD detected!")
     end
-
-    local target = camActive and CAM_HEIGHT or 0.0
-    local step = camActive and 0.01 or -0.01
-
-    for i = camHeight, target, step do
-        camHeight = i
-        Wait(10)
-    end
-
-    camHeight = target 
-    camMoving = false
 end
 
-CreateThread(function()
-    while true do
-        Wait(0)
-        if camActive or camMoving then
+local function startDrawLoop()
+    if drawing then return end
+    drawing = true
+
+    CreateThread(function()
+        while camActive or camMoving do
             DrawRect(0.5, camHeight / 2.0, 1.0, camHeight, 0, 0, 0, 255)
             DrawRect(0.5, 1.0 - camHeight / 2.0, 1.0, camHeight, 0, 0, 0, 255)
+            Wait(0)
         end
-    end
-end)
+        drawing = false
+    end)
+end
+
+local function slideOut()
+    CreateThread(function()
+        for i = camHeight, 0.0, -0.01 do
+            camHeight = i
+            Wait(10)
+        end
+
+        camHeight = 0.0
+        camMoving = false
+    end)
+end
 
 local function promptBarThickness()
-    local options = {
-        { value = 0.05, label = 'Thin' },
-        { value = 0.10, label = 'Medium' },
-        { value = 0.20, label = 'Thick' },
-        { value = 0.30, label = 'Extra Thick' }
-    }
-
-    local input = lib.inputDialog(config.menuTitle, {{
+    local input = lib.inputDialog(locale('menu_title'), {{
         type = 'select',
-        label = 'Bar Thickness',
-        options = options,
-        default = tostring(CAM_HEIGHT)
+        label = locale('bar_thickness'),
+        options = thicknessOptions,
+        required = true,
     }})
 
     return input and tonumber(input[1])
@@ -63,19 +66,19 @@ end
 local function toggleCinematic(forceOff)
     if IsPauseMenuActive() or camMoving then return end
 
-    if forceOff then
-        if not camActive then return end
+    if camActive then
         camActive = false
-    else
-        if not camActive then
-            local value = promptBarThickness()
-            if not value then return end
-            CAM_HEIGHT = value
-        end
-        camActive = not camActive
+        camMoving = true
+        setHudVisible(true)
+        slideOut()
+    elseif not forceOff then
+        local value = promptBarThickness()
+        if not value or camActive or camMoving then return end
+        camHeight = value
+        camActive = true
+        setHudVisible(false)
+        startDrawLoop()
     end
-
-    CreateThread(handleCinematicAnim)
 end
 
 RegisterNetEvent('cinematic:toggle', function()

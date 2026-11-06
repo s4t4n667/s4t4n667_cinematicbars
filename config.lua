@@ -1,11 +1,9 @@
 return {
 
-	webhookURL = '', -- for discord logging
+	webhookURL = '', 				-- for discord logging
 
-	command = 'cinematic', -- command used to open menu/remove bars
+	command = 'cinematic', 			-- command used to open menu/remove bars
 
-	cooldown = 5, -- seconds
-
-	menuTitle = 'Cinematic Bar Overlay',
+	cooldown = 5, 					-- seconds
 
 }

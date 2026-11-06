@@ -1,0 +1,16 @@
+{
+    "menu_title": "Cinematic Bar Overlay",
+    "bar_thickness": "Bar Thickness",
+    "thickness_thin": "Thin",
+    "thickness_medium": "Medium",
+    "thickness_thick": "Thick",
+    "thickness_extra_thick": "Extra Thick",
+
+    "command_help": "Toggle cinematic bars with customizable thickness.",
+    "notify_title": "Cinematic Mode",
+    "cooldown_notify": "Please wait %d more seconds before using this again.",
+
+    "log_username": "Cinematic Bars",
+    "log_used_title": "Cinematic Command Used",
+    "log_used_message": "Player: **%s** (ID: %d) used /%s to toggle cinematic mode."
+}

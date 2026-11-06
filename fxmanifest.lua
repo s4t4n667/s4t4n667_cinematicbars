@@ -5,7 +5,7 @@ lua54 'yes'
 
 author "Asgaard Developments | s4t4n667"
 description 'Cinematic bars overlay'
-version '1.0.0'
+version '1.1.0'
 
 
 shared_scripts {
@@ -20,6 +20,7 @@ server_scripts {
 	'resource/server.lua',
 }
 
-dependencies {
-    'ox_lib'
+files {
+	'config.lua',
+	'locales/*.json',
 }

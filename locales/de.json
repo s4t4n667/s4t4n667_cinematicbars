@@ -1,0 +1,16 @@
+{
+    "menu_title": "Kinobalken-Overlay",
+    "bar_thickness": "Balkenstärke",
+    "thickness_thin": "Dünn",
+    "thickness_medium": "Mittel",
+    "thickness_thick": "Dick",
+    "thickness_extra_thick": "Extra dick",
+
+    "command_help": "Schaltet die Kinobalken mit anpassbarer Stärke ein oder aus.",
+    "notify_title": "Kinomodus",
+    "cooldown_notify": "Bitte warte noch %d Sekunden, bevor du das erneut verwendest.",
+
+    "log_username": "Kinobalken",
+    "log_used_title": "Kino-Befehl verwendet",
+    "log_used_message": "Spieler: **%s** (ID: %d) hat /%s verwendet, um den Kinomodus umzuschalten."
+}
